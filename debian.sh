@@ -154,6 +154,21 @@ else
     echo "Kind is already installed."
 fi
 
+# Install k9s
+if ! command -v k9s >/dev/null; then
+    echo "k9s is not installed. Installing k9s..."
+    K9S_VERSION=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep tag_name | cut -d '"' -f 4)
+    wget "https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_${ARCH_SUFFIX}.tar.gz"
+    tar -zxvf "k9s_Linux_${ARCH_SUFFIX}.tar.gz"
+    sudo mv k9s /usr/local/bin/
+    sudo chmod +x /usr/local/bin/k9s
+    k9s version
+    rm "k9s_Linux_${ARCH_SUFFIX}.tar.gz"
+else
+    echo "k9s is already installed."
+fi
+
+
 # Set up local name resolution
 HOSTS_ENTRIES=(
 "127.0.0.1 minio-api.local.test"
