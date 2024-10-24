@@ -176,6 +176,7 @@ HOSTS_ENTRIES=(
 "127.0.0.1 home.local.test"
 "127.0.0.1 nifi.local.test"
 "127.0.0.1 kibana.local.test"
+"127.0.0.1 wss.local.test"
 )
 
 echo "Setting up local name resolution..."
