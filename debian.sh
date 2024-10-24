@@ -8,6 +8,18 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+ARCH=$(uname -m)
+if [ "$ARCH" = "x86_64" ]; then
+    ARCH_SUFFIX="amd64"
+elif [ "$ARCH" = "aarch64" ]; then
+    ARCH_SUFFIX="arm64"
+else
+    echo "Unsupported architecture: $ARCH"
+    exit 1
+fi
+
+echo "Detected architecture: $ARCH (using $ARCH_SUFFIX for packages)"
+
 GIT_DEST="/home/octostar"
 ZIP_URL="https://octostarco.github.io/octostar-singlenode.zip"
 DOCKERHUB_USERNAME="octostar"
@@ -112,8 +124,8 @@ fi
 # Install Helmfile
 if ! [ -x "$(command -v helmfile)" ]; then
     echo "Helmfile is not installed. Installing Helmfile..."
-    wget https://github.com/helmfile/helmfile/releases/download/v0.168.0/helmfile_0.168.0_linux_arm64.tar.gz
-    tar -zxvf helmfile_0.168.0_linux_arm64.tar.gz
+    wget "https://github.com/helmfile/helmfile/releases/download/v0.168.0/helmfile_0.168.0_linux_${ARCH_SUFFIX}.tar.gz"
+    tar -zxvf "helmfile_0.168.0_linux_${ARCH_SUFFIX}.tar.gz"
     mv helmfile /usr/local/bin/
     chmod +x /usr/local/bin/helmfile
     helmfile --version
@@ -124,7 +136,7 @@ fi
 # Install Kubectl
 if ! [ -x "$(command -v kubectl)" ]; then
     echo "Kubectl is not installed. Installing Kubectl..."
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${ARCH_SUFFIX}/kubectl"
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     kubectl version --client
 else
@@ -134,7 +146,7 @@ fi
 # Install Kind
 if ! [ -x "$(command -v kind)" ]; then
     echo "Kind is not installed. Installing Kind..."
-    curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-arm64
+    curl -Lo ./kind "https://kind.sigs.k8s.io/dl/latest/kind-linux-${ARCH_SUFFIX}"
     chmod +x ./kind
     mv ./kind /usr/local/bin/kind
     kind --version
