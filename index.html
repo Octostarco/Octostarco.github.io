@@ -46,18 +46,41 @@
             margin-bottom: 20px;
         }
 
-        .download-link {
-            color: white;
-            background-color: #007BFF;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            display: inline-block;
+        .code-container {
+            position: relative;
         }
 
-        .download-link:hover {
-            background-color: #0056b3;
+        pre {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            overflow-x: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #ffdd57;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
@@ -74,12 +97,26 @@
         This token is required to proceed with the installation.
     </p>
     <p>
-        Once you have the token, click the button below to download the installation script.
+        Replace <strong>dockerhub_token</strong> in the script below with the Docker Hub token you receive from Octostar. Once you have your token, run the following command in your terminal to start the installation process:
     </p>
-    <p>
-        <a href="debian-arm64.sh" class="download-link">Download Installation Script</a>
-    </p>
+    <div class="code-container">
+        <pre><code id="install-script">curl https://octostarco.github.io/debian-arm64.sh | env DOCKERHUB_TOKEN=dockerhub_token bash</code></pre>
+        <button class="copy-button" onclick="copyToClipboard()">📋</button>
+    </div>
 </main>
+
+<script>
+    function copyToClipboard() {
+        var scriptText = document.getElementById("install-script").innerText;
+        var tempInput = document.createElement("textarea");
+        tempInput.value = scriptText;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("Installation script copied to clipboard!");
+    }
+</script>
 
 </body>
 </html>
