@@ -97,12 +97,18 @@
         This token is required to proceed with the installation.
     </p>
     <p>
-        Replace <strong>dockerhub_token</strong> in the script below with the Docker Hub token you receive from Octostar. Once you have your token, run the following command in your terminal to start the installation process:
+        Currently, the installation is available only for <strong>Debian</strong> systems.
+    </p>
+    <p>
+        Replace <strong>dockerhub_token</strong> in the script below with the Docker Hub token you receive from Octostar. Ensure that the user executing the script has <strong>root permissions or sudo access</strong> to run the installation successfully.
     </p>
     <div class="code-container">
-        <pre><code id="install-script">curl https://octostarco.github.io/debian-arm64.sh | env DOCKERHUB_TOKEN=dockerhub_token bash</code></pre>
+        <pre><code id="install-script">curl https://octostarco.github.io/debian.sh | env DOCKERHUB_TOKEN=dockerhub_token bash</code></pre>
         <button class="copy-button" onclick="copyToClipboard()">📋</button>
     </div>
+    <p>
+        If you encounter any issues during installation, please contact our DevOps team at <a href="mailto:devops@octostar.com">devops@octostar.com</a> for assistance.
+    </p>
 </main>
 
 <script>
