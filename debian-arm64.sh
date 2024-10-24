@@ -36,8 +36,8 @@ function is_kind_cluster_running() {
 # Check if unzip is installed, if not, install it
 if ! command -v unzip >/dev/null; then
     echo "unzip is not installed. Installing unzip..."
-    sudo apt update
-    sudo apt install -y unzip
+    apt update
+    apt install -y unzip
 else
     echo "unzip is already installed."
 fi
