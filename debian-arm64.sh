@@ -9,9 +9,13 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 GIT_DEST="/home/octostar"
+ZIP_URL="https://octostarco.github.io/octostar-singlenode.zip"
 DOCKERHUB_USERNAME="octostar"
 
-read -s "Enter your Docker Hub token: " DOCKERHUB_TOKEN
+if [ -z "$DOCKERHUB_TOKEN" ]; then
+  echo "Error: The environment variable DOCKERHUB_TOKEN is not set. Exiting."
+  exit 1
+fi
 
 function has_systemd() {
     if pidof systemd >/dev/null; then
@@ -28,6 +32,28 @@ function is_kind_cluster_running() {
         return 1  # Kind cluster is not running
     fi
 }
+
+# Check if unzip is installed, if not, install it
+if ! command -v unzip >/dev/null; then
+    echo "unzip is not installed. Installing unzip..."
+    sudo apt update
+    sudo apt install -y unzip
+else
+    echo "unzip is already installed."
+fi
+
+# Download and extract the singlenode installation folder
+if [ -d "$GIT_DEST" ]; then
+    echo "Singlenode installation folder already exists at $GIT_DEST."
+else
+    echo "Downloading the singlenode installation zip and extracting to $GIT_DEST..."
+    TMP_ZIP="$(mktemp --suffix=.zip)"
+    curl -L "$ZIP_URL" -o "$TMP_ZIP"
+    mkdir -p "$GIT_DEST"
+    unzip "$TMP_ZIP" -d "$GIT_DEST"
+    rm "$TMP_ZIP"
+fi
+
 
 # Install Docker
 if ! [ -x "$(command -v docker)" ]; then
@@ -65,7 +91,6 @@ if ! docker info > /dev/null 2>&1; then
     exit 1
 fi
 
-# temporarily fix
 echo "Logging into Docker Hub..."
 echo "$DOCKERHUB_TOKEN" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
 
@@ -123,6 +148,7 @@ HOSTS_ENTRIES=(
 "127.0.0.1 fusion.local.test"
 "127.0.0.1 home.local.test"
 "127.0.0.1 nifi.local.test"
+"127.0.0.1 kibana.local.test"
 )
 
 echo "Setting up local name resolution..."
