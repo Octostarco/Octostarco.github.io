@@ -45,6 +45,16 @@ function is_kind_cluster_running() {
     fi
 }
 
+read -p "Do you want to use your own domain? (yes/no): " USE_CUSTOM_DOMAIN
+
+if [[ "$USE_CUSTOM_DOMAIN" =~ ^[Yy][Ee][Ss]$ || "$USE_CUSTOM_DOMAIN" =~ ^[Yy]$ ]]; then
+    read -p "Enter your domain name: " CUSTOM_DOMAIN
+    echo "Custom domain '$CUSTOM_DOMAIN' will be used."
+else
+    echo "Default domain 'local.test' will be used."
+    CUSTOM_DOMAIN="local.test"
+fi
+
 # Check if unzip is installed, if not, install it
 if ! command -v unzip >/dev/null; then
     echo "unzip is not installed. Installing unzip..."
@@ -171,12 +181,12 @@ fi
 
 # Set up local name resolution
 HOSTS_ENTRIES=(
-"127.0.0.1 minio-api.local.test"
-"127.0.0.1 fusion.local.test"
-"127.0.0.1 home.local.test"
-"127.0.0.1 nifi.local.test"
-"127.0.0.1 kibana.local.test"
-"127.0.0.1 wss.local.test"
+"127.0.0.1 minio-api.$CUSTOM_DOMAIN"
+"127.0.0.1 fusion.$CUSTOM_DOMAIN"
+"127.0.0.1 home.$CUSTOM_DOMAIN"
+"127.0.0.1 nifi.$CUSTOM_DOMAIN"
+"127.0.0.1 kibana.$CUSTOM_DOMAIN"
+"127.0.0.1 wss.$CUSTOM_DOMAIN"
 )
 
 echo "Setting up local name resolution..."
@@ -203,6 +213,11 @@ if [ ! -f "$GIT_DEST/k8s/local-env.yaml" ]; then
     echo "Setting up Octostar-singlenode..."
     cp "$GIT_DEST/k8s/local-env.template.yaml" "$GIT_DEST/k8s/local-env.yaml"
     sed -i "s/token: \"\"/token: \"$DOCKERHUB_TOKEN\"/" "$GIT_DEST/k8s/local-env.yaml"
+
+    if [[ "$CUSTOM_DOMAIN" != "local.test" ]]; then
+        sed -i "/^# octostar:/,/^# *domain:/{ s/^# *//; }" "$GIT_DEST/k8s/local-env.yaml"
+        sed -i "s/domain: \"local\.test\"/domain: \"$CUSTOM_DOMAIN\"/" "$GIT_DEST/k8s/local-env.yaml"
+    fi
 else
     echo "$GIT_DEST/k8s/local-env.yaml already exists."
 fi
