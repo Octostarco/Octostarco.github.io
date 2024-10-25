@@ -178,34 +178,35 @@ else
     echo "k9s is already installed."
 fi
 
+if [[ "$CUSTOM_DOMAIN" == "local.test" ]]; then
+    # Set up local name resolution
+    HOSTS_ENTRIES=(
+    "127.0.0.1 minio-api.local.test"
+    "127.0.0.1 fusion.local.test"
+    "127.0.0.1 home.local.test"
+    "127.0.0.1 nifi.local.test"
+    "127.0.0.1 kibana.local.test"
+    "127.0.0.1 wss.local.test"
+    )
 
-# Set up local name resolution
-HOSTS_ENTRIES=(
-"127.0.0.1 minio-api.$CUSTOM_DOMAIN"
-"127.0.0.1 fusion.$CUSTOM_DOMAIN"
-"127.0.0.1 home.$CUSTOM_DOMAIN"
-"127.0.0.1 nifi.$CUSTOM_DOMAIN"
-"127.0.0.1 kibana.$CUSTOM_DOMAIN"
-"127.0.0.1 wss.$CUSTOM_DOMAIN"
-)
+    echo "Setting up local name resolution..."
+    for HOSTS_ENTRY in "${HOSTS_ENTRIES[@]}"; do
+        if ! grep -Fxq "$HOSTS_ENTRY" /etc/hosts; then
+            echo "$HOSTS_ENTRY" >> /etc/hosts
+            echo "Added $HOSTS_ENTRY to /etc/hosts"
+        else
+            echo "$HOSTS_ENTRY already exists in /etc/hosts"
+        fi
+    done
 
-echo "Setting up local name resolution..."
-for HOSTS_ENTRY in "${HOSTS_ENTRIES[@]}"; do
-    if ! grep -Fxq "$HOSTS_ENTRY" /etc/hosts; then
-        echo "$HOSTS_ENTRY" >> /etc/hosts
-        echo "Added $HOSTS_ENTRY to /etc/hosts"
+    # Add self-signed root CA certificate
+    if [ ! -f "/usr/local/share/ca-certificates/rootCA.crt" ]; then
+        echo "Adding self-signed root CA certificate..."
+        cp "$GIT_DEST/k8s/rootCA.pem" /usr/local/share/ca-certificates/rootCA.crt
+        update-ca-certificates
     else
-        echo "$HOSTS_ENTRY already exists in /etc/hosts"
+        echo "Root CA certificate already installed."
     fi
-done
-
-# Add self-signed root CA certificate
-if [ ! -f "/usr/local/share/ca-certificates/rootCA.crt" ]; then
-    echo "Adding self-signed root CA certificate..."
-    cp "$GIT_DEST/k8s/rootCA.pem" /usr/local/share/ca-certificates/rootCA.crt
-    update-ca-certificates
-else
-    echo "Root CA certificate already installed."
 fi
 
 # Octostar-singlenode deployment
@@ -232,4 +233,18 @@ fi
 yes yes | ./k8s/install-octostar.kind
 
 echo "Script execution completed!"
-echo "You can now access the Octostar via home.local.test in your browser."
+echo "You can now access the Octostar via home.$CUSTOM_DOMAIN in your browser."
+
+if [[ "$CUSTOM_DOMAIN" == "local.test" ]]; then
+    ip_address=$(ip addr show eth0 | grep 'inet ' | awk '{print $2}' | cut -d/ -f1)
+    echo
+    echo
+    echo "To access the Octostar from your local machine, add the following line to your /etc/hosts file:"
+    echo "$ip_address home.local.test"
+    echo "$ip_address minio-api.local.test"
+    echo "$ip_address fusion.local.test"
+    echo "$ip_address nifi.local.test"
+    echo "$ip_address kibana.local.test"
+    echo "$ip_address wss.local.test"
+fi
+
