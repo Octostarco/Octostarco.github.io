@@ -107,6 +107,27 @@
         <button class="copy-button" onclick="copyToClipboard()">📋</button>
     </div>
     <p>
+        When executing the script, you will be prompted to provide a domain name or use the default one. If the default domain name is chosen, you’ll need to update the hosts file on your local machine to access octostar-singlenode on the server. Update the hosts file with the following:
+    </p>
+    <div class="code-container">
+        <pre><code id="hosts-entries">
+            ip_address fusion.local.test
+            ip_address kibana.local.test
+            ip_address home.local.test
+            ip_address minio-api.local.test
+            ip_address nifi.local.test
+            ip_address wss.local.test
+        </code></pre>
+        <button class="copy-button" onclick="copyToClipboard()">📋</button>
+    </div>
+    <p>
+        To find the IP address of the server, run the following command:
+    </p>
+    <div class="code-container">
+        <pre><code id="find-ip-address">ip addr show eth0 | grep 'inet ' | awk '{print $2}' | cut -d/ -f1</code></pre>
+        <button class="copy-button" onclick="copyToClipboard()">📋</button>
+    </div>
+    <p>
         If you encounter any issues during installation, please contact our DevOps team at <a href="mailto:systems@octostar.com">systems@octostar.com</a> for assistance.
     </p>
 </main>
