@@ -25,8 +25,8 @@ ZIP_URL="https://octostarco.github.io/octostar-singlenode.zip"
 DOCKERHUB_USERNAME="octostar"
 
 if [ -z "$DOCKERHUB_TOKEN" ]; then
-  echo "Error: The environment variable DOCKERHUB_TOKEN is not set. Exiting."
-  exit 1
+    echo "Error: The environment variable DOCKERHUB_TOKEN is not set. Exiting."
+    exit 1
 fi
 
 function has_systemd() {
@@ -45,12 +45,7 @@ function is_kind_cluster_running() {
     fi
 }
 
-read -p "Do you want to use your own domain? (yes/no): " USE_CUSTOM_DOMAIN
-
-if [[ "$USE_CUSTOM_DOMAIN" =~ ^[Yy][Ee][Ss]$ || "$USE_CUSTOM_DOMAIN" =~ ^[Yy]$ ]]; then
-    read -p "Enter your domain name: " CUSTOM_DOMAIN
-    echo "Custom domain '$CUSTOM_DOMAIN' will be used."
-else
+if [ -z "$CUSTOM_DOMAIN" ]; then
     echo "Default domain 'local.test' will be used."
     CUSTOM_DOMAIN="local.test"
 fi
