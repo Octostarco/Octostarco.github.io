@@ -52,7 +52,7 @@ validate_domain() {
         exit 1
     fi
     # Check if it starts or ends with a dot
-    if [[ "$CUSTOM_DOMAIN" == .* || "$CUSTOM_DOMAIN" == *.* ]]; then
+    if [[ "$CUSTOM_DOMAIN" == .* || "$CUSTOM_DOMAIN" == *. ]]; then
         echo "Error: Domain name cannot start or end with a dot."
         exit 1
     fi
