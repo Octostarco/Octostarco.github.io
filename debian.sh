@@ -45,9 +45,29 @@ function is_kind_cluster_running() {
     fi
 }
 
+validate_domain() {
+    # Check if it contains at least one dot
+    if ! [[ "$CUSTOM_DOMAIN" == *.* ]]; then
+        echo "Error: A valid domain name must contain at least one dot."
+        exit 1
+    fi
+    # Check if it starts or ends with a dot
+    if [[ "$CUSTOM_DOMAIN" == .* || "$CUSTOM_DOMAIN" == *.* ]]; then
+        echo "Error: Domain name cannot start or end with a dot."
+        exit 1
+    fi
+    # Check if it contains only valid characters (letters, numbers, hyphens, dots)
+    if ! [[ "$CUSTOM_DOMAIN" =~ ^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$ ]]; then
+        echo "Error: Domain name contains invalid characters or format."
+        exit 1
+    fi
+}
+
 if [ -z "$CUSTOM_DOMAIN" ]; then
     echo "Default domain 'local.test' will be used."
     CUSTOM_DOMAIN="local.test"
+else
+    validate_domain
 fi
 
 # Check if unzip is installed, if not, install it
