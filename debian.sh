@@ -165,8 +165,8 @@ if ! command -v k9s >/dev/null; then
     K9S_VERSION=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep tag_name | cut -d '"' -f 4)
     wget "https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_${ARCH_SUFFIX}.tar.gz"
     tar -zxvf "k9s_Linux_${ARCH_SUFFIX}.tar.gz"
-    sudo mv k9s /usr/local/bin/
-    sudo chmod +x /usr/local/bin/k9s
+    mv k9s /usr/local/bin/
+    chmod +x /usr/local/bin/k9s
     k9s version
     rm "k9s_Linux_${ARCH_SUFFIX}.tar.gz"
 else
