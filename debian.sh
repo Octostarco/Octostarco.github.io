@@ -211,7 +211,7 @@ if [ ! -f "$GIT_DEST/k8s/local-env.yaml" ]; then
     sed -i "s/token: \"\"/token: \"$DOCKERHUB_TOKEN\"/" "$GIT_DEST/k8s/local-env.yaml"
 
     if [[ "$CUSTOM_DOMAIN" != "local.test" ]]; then
-        sed -i "/^# octostar:/,/^# *domain:/{ s/^# *//; }" "$GIT_DEST/k8s/local-env.yaml"
+        sed -i "/^# octostar:/,/^# *domain:/{ s/^# //; }" "$GIT_DEST/k8s/local-env.yaml"
         sed -i "s/domain: \"local\.test\"/domain: \"$CUSTOM_DOMAIN\"/" "$GIT_DEST/k8s/local-env.yaml"
     fi
 else
