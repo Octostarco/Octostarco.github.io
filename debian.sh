@@ -267,7 +267,7 @@ nodes:
     protocol: TCP
 EOF
 fi
-yes yes | ./k8s/install-octostar.kind
+yes yes | ./k8s/install-octostar.sh
 
 echo "Script execution completed!"
 echo "You can now access the Octostar via home.$CUSTOM_DOMAIN in your browser."
