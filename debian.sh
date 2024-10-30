@@ -37,14 +37,6 @@ function has_systemd() {
     fi
 }
 
-function is_kind_cluster_running() {
-    if kind get clusters | grep -q 'kind'; then
-        return 0  # Kind cluster is running
-    else
-        return 1  # Kind cluster is not running
-    fi
-}
-
 validate_domain() {
     # Check if it contains at least one dot
     if ! [[ "$CUSTOM_DOMAIN" == *.* ]]; then
@@ -239,34 +231,6 @@ else
 fi
 
 cd "$GIT_DEST"
-if is_kind_cluster_running; then
-    echo "Kind cluster is already running."
-else
-    echo "Kind cluster is not running. Executing onetime-setup.kind..."
-    cat <<EOF | kind create cluster --config=-
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-- role: control-plane
-  kubeadmConfigPatches:
-  - |
-    kind: InitConfiguration
-    nodeRegistration:
-      kubeletExtraArgs:
-        node-labels: "ingress-ready=true"
-  - |
-    kind: KubeletConfiguration
-    apiVersion: kubelet.config.k8s.io/v1beta1
-    v: 4  # Set log verbosity level to 4 for debugging
-  extraPortMappings:
-  - containerPort: 80
-    hostPort: 80
-    protocol: TCP
-  - containerPort: 443
-    hostPort: 443
-    protocol: TCP
-EOF
-fi
 yes yes | ./k8s/install-octostar.sh
 
 echo "Script execution completed!"
