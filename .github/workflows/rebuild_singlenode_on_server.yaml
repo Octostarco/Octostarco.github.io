@@ -25,4 +25,4 @@ jobs:
         env:
           SSH_AUTH_SOCK: /tmp/ssh_auth_sock
         run: |
-          ssh -i ~/.ssh/private_key root@195.201.116.71 'bash ~/redeploy-octostar.sh'
+          ssh -i ~/.ssh/private_key root@195.201.116.71 'bash /home/redeploy-octostar.sh'
