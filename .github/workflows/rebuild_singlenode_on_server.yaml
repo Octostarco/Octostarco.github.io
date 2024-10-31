@@ -34,4 +34,4 @@ jobs:
           curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/octostarco/octostar-automation-tests/actions/workflows/run_tests_dispatch.yml/dispatches \
-            -d '{"ref":"main", "inputs": {"tag": "smoke", "env": "gwy"}}'
+            -d '{"ref":"master", "inputs": {"tag": "smoke", "env": "gwy"}}'
