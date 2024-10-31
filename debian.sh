@@ -248,4 +248,3 @@ if [[ "$CUSTOM_DOMAIN" == "local.test" ]]; then
     echo "$ip_address kibana.local.test"
     echo "$ip_address wss.local.test"
 fi
-

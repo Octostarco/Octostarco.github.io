@@ -1,0 +1,28 @@
+name: Rebuild Singlenode on Server
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 8 */2 * *"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/private_key
+          chmod 600 ~/.ssh/private_key
+          ssh-keyscan -H 195.201.116.71 >> ~/.ssh/known_hosts
+
+      - name: Run remote shell script
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_auth_sock
+        run: |
+          ssh -i ~/.ssh/private_key root@195.201.116.71 'bash -s' < /home/redeploy-octostar.sh
