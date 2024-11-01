@@ -78,7 +78,7 @@ else
 fi
 
 cd "$GIT_DEST"
-yes yes | ./bin/install-octostar.sh
+yes yes | ./bin/install.sh
 
 echo "Script execution completed!"
 echo "You can now access the Octostar via home.$CUSTOM_DOMAIN in your browser."
