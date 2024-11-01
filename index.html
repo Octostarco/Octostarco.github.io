@@ -103,14 +103,14 @@
         Replace <strong>dockerhub_token</strong> in the script below with the Docker Hub token you receive from Octostar. Ensure that the user executing the script has <strong>root permissions or sudo access</strong> to run the installation successfully.
     </p>
     <div class="code-container">
-        <pre><code id="install-script-without-domain">curl https://octostarco.github.io/debian.sh | env DOCKERHUB_TOKEN=dockerhub_token bash</code></pre>
+        <pre><code id="install-script-without-domain">curl https://octostarco.github.io/install-octostar.sh | env DOCKERHUB_TOKEN=dockerhub_token bash</code></pre>
         <button class="copy-button" onclick="copyToClipboard('install-script-without-domain')">📋</button>
     </div>
     <p>
         To provide a custom domain name replace <strong>custom_domain</strong> in the script below with your custom domain name, otherwise the default domain name will be assigned. The default domain name is <strong>local.test</strong>.
     </p>
     <div class="code-container">
-        <pre><code id="install-script-with-domain">curl https://octostarco.github.io/debian.sh | env DOCKERHUB_TOKEN=dockerhub_token CUSTOM_DOMAIN=custom_domain bash</code></pre>
+        <pre><code id="install-script-with-domain">curl https://octostarco.github.io/install-octostar.sh | env DOCKERHUB_TOKEN=dockerhub_token CUSTOM_DOMAIN=custom_domain bash</code></pre>
         <button class="copy-button" onclick="copyToClipboard('install-script-with-domain')">📋</button>
     </div>
     <p>
