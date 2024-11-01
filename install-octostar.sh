@@ -64,21 +64,21 @@ else
 fi
 
 # Octostar-singlenode deployment
-if [ ! -f "$GIT_DEST/k8s/local-env.yaml" ]; then
+if [ ! -f "$GIT_DEST/local-env.yaml" ]; then
     echo "Setting up Octostar-singlenode..."
-    cp "$GIT_DEST/k8s/local-env.template.yaml" "$GIT_DEST/k8s/local-env.yaml"
-    sed -i "s/token: \"\"/token: \"$DOCKERHUB_TOKEN\"/" "$GIT_DEST/k8s/local-env.yaml"
+    cp "$GIT_DEST/local-env.template.yaml" "$GIT_DEST/local-env.yaml"
+    sed -i "s/token: \"\"/token: \"$DOCKERHUB_TOKEN\"/" "$GIT_DEST/local-env.yaml"
 
     if [[ "$CUSTOM_DOMAIN" != "local.test" ]]; then
-        sed -i "/^# octostar:/,/^# *domain:/{ s/^# //; }" "$GIT_DEST/k8s/local-env.yaml"
-        sed -i "s/domain: \"local\.test\"/domain: \"$CUSTOM_DOMAIN\"/" "$GIT_DEST/k8s/local-env.yaml"
+        sed -i "/^# octostar:/,/^# *domain:/{ s/^# //; }" "$GIT_DEST/local-env.yaml"
+        sed -i "s/domain: \"local\.test\"/domain: \"$CUSTOM_DOMAIN\"/" "$GIT_DEST/local-env.yaml"
     fi
 else
-    echo "$GIT_DEST/k8s/local-env.yaml already exists."
+    echo "$GIT_DEST/local-env.yaml already exists."
 fi
 
 cd "$GIT_DEST"
-yes yes | ./k8s/install-octostar.sh
+yes yes | ./bin/install-octostar.sh
 
 echo "Script execution completed!"
 echo "You can now access the Octostar via home.$CUSTOM_DOMAIN in your browser."
