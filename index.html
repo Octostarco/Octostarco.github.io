@@ -114,10 +114,10 @@
         <button class="copy-button" onclick="copyToClipboard('install-script-with-domain')">📋</button>
     </div>
     <p>
-        To import bigdata datasets replace <strong>synthetic_big_data</strong> in the script below with 'large', otherwise no data will be imported.
+        To import bigdata datasets add <strong>SYNTHETIC_BIG_DATA=large</strong>, otherwise no data will be imported.
     </p>
     <div class="code-container">
-        <pre><code id="install-script-with-bigdata">curl https://octostarco.github.io/install-octostar.sh | env DOCKERHUB_TOKEN=dockerhub_token SYNTHETIC_BIG_DATA=synthetic_big_data bash</code></pre>
+        <pre><code id="install-script-with-bigdata">curl https://octostarco.github.io/install-octostar.sh | env DOCKERHUB_TOKEN=dockerhub_token SYNTHETIC_BIG_DATA=large bash</code></pre>
         <button class="copy-button" onclick="copyToClipboard('install-script-with-bigdata')">📋</button>
     </div>
     <p>
