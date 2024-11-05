@@ -73,6 +73,15 @@ if [ ! -f "$GIT_DEST/local-env.yaml" ]; then
         sed -i "/^# octostar:/,/^# *domain:/{ s/^# //; }" "$GIT_DEST/local-env.yaml"
         sed -i "s/domain: \"local\.test\"/domain: \"$CUSTOM_DOMAIN\"/" "$GIT_DEST/local-env.yaml"
     fi
+
+    if [ -n "$SYNTHETIC_BIG_DATA" ]; then
+        if [ "${SYNTHETIC_BIG_DATA,,}" = "large" ] || [ "${SYNTHETIC_BIG_DATA,,}" = "small" ]; then
+            sed -i "/^# bigData:/{ s/^# //; }" "$GIT_DEST/local-env.yaml"
+            sed -i "s/bigData: \"none\"/bigData: \"${SYNTHETIC_BIG_DATA,,}\"/" "$GIT_DEST/local-env.yaml"
+        else
+            echo "SYNTHETIC_BIG_DATA is set to '$SYNTHETIC_BIG_DATA' but is neither 'large' nor 'small'"
+        fi
+    fi
 else
     echo "$GIT_DEST/local-env.yaml already exists."
 fi
