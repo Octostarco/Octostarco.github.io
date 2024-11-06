@@ -72,7 +72,7 @@ if [ -d "$GIT_DEST" ]; then
     echo "Singlenode installation folder already exists at $GIT_DEST."
 else
     echo "Downloading the singlenode installation zip and extracting to $GIT_DEST..."
-    TMP_ZIP="$(mktemp --suffix=.zip)"
+    TMP_ZIP="$(mktemp /tmp/octostar-zip.XXXXXX.zip)"
     curl -L "$ZIP_URL" -o "$TMP_ZIP"
     sudo mkdir -p "$GIT_DEST"
     sudo chgrp "users" "$GIT_DEST"
