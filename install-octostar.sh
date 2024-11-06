@@ -75,7 +75,7 @@ else
     TMP_ZIP="$(mktemp /tmp/octostar-zip.XXXXXX.zip)"
     curl -L "$ZIP_URL" -o "$TMP_ZIP"
     sudo mkdir -p "$GIT_DEST"
-    sudo chgrp "users" "$GIT_DEST"
+    sudo chgrp "$(id -gn)" "$GIT_DEST"
     sudo chmod 770 "$GIT_DEST"
     unzip "$TMP_ZIP" -d "$GIT_DEST"
     rm "$TMP_ZIP"
