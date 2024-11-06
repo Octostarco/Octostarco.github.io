@@ -2,13 +2,7 @@
 
 set -e
 
-# Check if the script is run as root
-if [ "$EUID" -ne 0 ]; then
-    echo "Please run this script as root or using sudo."
-    exit 1
-fi
-
-GIT_DEST="/home/octostar"
+GIT_DEST="/opt/octostar"
 ZIP_URL="https://octostarco.github.io/octostar-singlenode.zip"
 DOCKERHUB_USERNAME="octostar"
 
@@ -45,8 +39,8 @@ fi
 # Check if unzip is installed, if not, install it
 if ! command -v unzip >/dev/null; then
     echo "unzip is not installed. Installing unzip..."
-    apt update
-    apt install -y unzip
+    sudo apt update
+    sudo apt install -y unzip
 else
     echo "unzip is already installed."
 fi
@@ -58,7 +52,9 @@ else
     echo "Downloading the singlenode installation zip and extracting to $GIT_DEST..."
     TMP_ZIP="$(mktemp --suffix=.zip)"
     curl -L "$ZIP_URL" -o "$TMP_ZIP"
-    mkdir -p "$GIT_DEST"
+    sudo mkdir -p "$GIT_DEST"
+    sudo chgrp "users" "$GIT_DEST"
+    sudo chmod 770 "$GIT_DEST"
     unzip "$TMP_ZIP" -d "$GIT_DEST"
     rm "$TMP_ZIP"
 fi
