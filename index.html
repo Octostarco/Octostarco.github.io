@@ -4,85 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Octostar Installation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        header {
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo {
-            width: 37px;
-            height: 37px;
-            margin-right: 15px;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin: 0;
-        }
-
-        .content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
-
-        p {
-            font-size: 1.1em;
-            margin-bottom: 20px;
-        }
-
-        .code-container {
-            position: relative;
-        }
-
-        pre {
-            background-color: #333;
-            color: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            overflow-x: auto;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 0;
-        }
-
-        code {
-            font-family: 'Courier New', Courier, monospace;
-            color: #ffdd57;
-        }
-
-        .copy-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: transparent;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        .copy-button:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -92,51 +14,101 @@
 </header>
 
 <main class="content">
-    <p>
-        To get started with the installation of Octostar Singlenode, please ensure that you have obtained a Docker Hub token from Octostar.
-        This token is required to proceed with the installation.
-    </p>
-    <p>
-        Currently, the installation is available only for <strong>Debian</strong> systems.
-    </p>
-    <p>
-        Replace <strong>dockerhub_token</strong> in the script below with the Docker Hub token you receive from Octostar. Ensure that the user executing the script has <strong>root permissions or sudo access</strong> to run the installation successfully.
-    </p>
-    <div class="code-container">
-        <pre><code id="install-script-without-domain">curl https://octostarco.github.io/install-octostar.sh | env DOCKERHUB_TOKEN=dockerhub_token bash</code></pre>
-        <button class="copy-button" onclick="copyToClipboard('install-script-without-domain')">📋</button>
+    <section class="intro">
+        <h2>Octostar Installation Guide</h2>
+        <p class="lead">
+            Welcome to the streamlined Octostar installation process. Configure your installation below and get started in minutes.
+        </p>
+    </section>
+
+    <div class="requirements-grid">
+        <div class="info-card">
+            <h3>🖥️ System Requirements</h3>
+            <ul class="requirements-list">
+                <li>Debian Linux 12 (fresh installation)</li>
+                <li>Root access required</li>
+                <li>32GB Memory minimum</li>
+                <li>8 vCPU cores</li>
+                <li>200 GB disk space</li>
+                <li>NVIDIA GPU (optional)</li>
+                <li>High-speed internet connection</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <h3>🎁 What You'll Get</h3>
+            <ul class="features-list">
+                <li>Full Octostar stack in single-node Kubernetes (Kind)</li>
+                <li>Auto-installed OS dependencies (docker, kubectl, k9s, stern)</li>
+                <li>Auto-configured Self-signed root CA cert</li>
+                <li>Auto-configured *.local.test in /etc/hosts</li>
+                <li>Optional public DNS support</li>
+                <li class="optional-feature">
+                    <span class="optional-badge">Optional</span>
+                    1.5B synthetic records for testing (~130GB)
+                </li>
+            </ul>
+        </div>
     </div>
-    <p>
-        To provide a custom domain name replace <strong>custom_domain</strong> in the script below with your custom domain name, otherwise the default domain name will be assigned. The default domain name is <strong>local.test</strong>.
-    </p>
-    <div class="code-container">
-        <pre><code id="install-script-with-domain">curl https://octostarco.github.io/install-octostar.sh | env DOCKERHUB_TOKEN=dockerhub_token CUSTOM_DOMAIN=custom_domain bash</code></pre>
-        <button class="copy-button" onclick="copyToClipboard('install-script-with-domain')">📋</button>
+
+    <div class="form-container">
+        <div class="form-group">
+            <label for="dockerhub-token">Docker Hub Token (required):</label>
+            <input type="password" id="dockerhub-token" required 
+                   placeholder="Enter your Docker Hub token"
+                   onchange="updateCommand()">
+        </div>
+
+        <div class="form-group">
+            <label for="domain-name">Custom Domain (optional):</label>
+            <input type="text" id="domain-name" 
+                   pattern="^([a-zA-Z0-9]-?)*[a-zA-Z0-9]\.[a-zA-Z0-9].*$"
+                   placeholder="e.g., example.com"
+                   onchange="updateCommand()">
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="synthetic-data" onchange="updateCommand()">
+            <label for="synthetic-data">Include 1.5B records of synthetic data</label>
+        </div>
+
+        <div class="checkbox-group wip">
+            <input type="checkbox" id="gpu-passthrough" disabled>
+            <label for="gpu-passthrough">
+                Enable NVIDIA GPU pass-through
+                <span class="wip-badge">Coming Soon</span>
+            </label>
+            <div class="wip-tooltip">
+                NVIDIA GPU support is currently in development.
+            </div>
+        </div>
+
+        <div class="installation-actions">
+            <div class="code-preview">
+                <code id="install-script">curl https://octostarco.github.io/install-octostar.sh | env DOCKERHUB_TOKEN=dockerhub_token bash</code>
+            </div>
+            
+            <button class="copy-command-btn" onclick="copyToClipboard('install-script')">
+                COPY AUTO-INSTALL COMMAND
+            </button>
+        </div>
     </div>
-    <p>
-        To import bigdata datasets add <strong>SYNTHETIC_BIG_DATA=large</strong>, otherwise no data will be imported.
-    </p>
-    <div class="code-container">
-        <pre><code id="install-script-with-bigdata">curl https://octostarco.github.io/install-octostar.sh | env DOCKERHUB_TOKEN=dockerhub_token SYNTHETIC_BIG_DATA=large bash</code></pre>
-        <button class="copy-button" onclick="copyToClipboard('install-script-with-bigdata')">📋</button>
+
+    <div class="notice-box">
+        <p><strong>Note:</strong> After installation completes, please allow a few minutes for search engine indexing to complete.</p>
     </div>
-    <p>
-        If you encounter any issues during installation, please contact our DevOps team at <a href="mailto:systems@octostar.com">systems@octostar.com</a> for assistance.
-    </p>
+
+    <section class="support-info">
+        <h4>Need Help?</h4>
+        <p>We're here to support you through the installation process:</p>
+        <ul>
+            <li>Reach out through our Slack channel</li>
+            <li>Reply to your installation email thread</li>
+        </ul>
+    </section>
 </main>
 
-<script>
-    function copyToClipboard(elementId) {
-        var scriptText = document.getElementById(elementId).innerText;
-        var tempInput = document.createElement("textarea");
-        tempInput.value = scriptText;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
-        alert("Installation script copied to clipboard!");
-    }
-</script>
+<script src="index.js"></script>
 
 </body>
 </html>

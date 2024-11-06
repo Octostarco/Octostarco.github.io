@@ -1,0 +1,294 @@
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* Header Styles */
+header {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    width: 37px;
+    height: 37px;
+    margin-right: 15px;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+/* Layout & Container Styles */
+.content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+p {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+/* Code Container Styles */
+.code-container {
+    position: relative;
+}
+
+pre {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    overflow-x: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #ffdd57;
+}
+
+.copy-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.copy-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Requirements Grid */
+.requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/* Card Components */
+.info-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+}
+
+.info-card h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* Lists */
+.requirements-list,
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.requirements-list li,
+.features-list li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: start;
+    gap: 0.5rem;
+}
+
+.requirements-list li::before {
+    content: "⚡";
+    color: #f39c12;
+}
+
+.features-list li::before {
+    content: "✓";
+    color: #27ae60;
+    font-weight: bold;
+}
+
+/* Form Styles */
+.form-container {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.form-group input:invalid {
+    border-color: #ff4444;
+}
+
+.checkbox-group {
+    margin-bottom: 10px;
+}
+
+/* Optional Feature Styles */
+.optional-feature {
+    opacity: 0.8;
+}
+
+.optional-badge {
+    font-size: 0.8em;
+    background: #6c757d;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 6px;
+    font-weight: 500;
+}
+
+.features-list li.optional-feature::before {
+    content: "○";
+    color: #6c757d;
+}
+
+/* Button Styles */
+.copy-command-btn {
+    display: block;
+    width: 100%;
+    padding: 16px 24px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+
+.copy-command-btn:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+    transform: translateY(-1px);
+}
+
+.copy-command-btn:active {
+    background-color: #3d8b40;
+    transform: translateY(0);
+}
+
+/* Code Preview */
+.code-preview {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 15px 0;
+    font-family: monospace;
+    font-size: 0.9em;
+    color: #6c757d;
+    overflow-x: auto;
+    word-break: break-all;
+}
+
+.code-preview code {
+    color: inherit;
+}
+
+/* Notice & Support Sections */
+.notice-box {
+    background: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 1rem;
+    margin: 2rem 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.support-info {
+    background: #e8f4f8;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.support-info h4 {
+    color: #2980b9;
+    margin-top: 0;
+}
+
+.installation-actions {
+    margin-top: 25px;
+    border-top: 1px solid #e9ecef;
+    padding-top: 20px;
+}
+.checkbox-group.wip {
+    opacity: 0.7;
+}
+
+.wip-badge {
+    background: #6c757d;
+    color: white;
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 8px;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+.checkbox-group.wip input[type="checkbox"] {
+    cursor: not-allowed;
+}
+
+.checkbox-group.wip label {
+    cursor: not-allowed;
+}
+
+.wip-tooltip {
+    color: #666;
+    font-size: 0.85em;
+    margin-top: 4px;
+    margin-left: 24px;
+    font-style: italic;
+}
