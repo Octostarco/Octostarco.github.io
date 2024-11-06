@@ -52,11 +52,27 @@
     </div>
 
     <div class="form-container">
-        <div class="form-group">
+        <div class="form-group token-group">
             <label for="dockerhub-token">Docker Hub Token (required):</label>
-            <input type="password" id="dockerhub-token" required 
+            <input type="password" 
+                   id="dockerhub-token" 
+                   required 
                    placeholder="Enter your Docker Hub token"
                    onchange="updateCommand()">
+            
+            <div class="token-help">
+                <i>💡</i>
+                <a href="#" onclick="toggleTokenRequest(event)">Need a token? We'll provide one via email</a>
+            </div>
+
+            <div class="token-request-box" id="tokenRequestBox">
+                <p>We'll send you a Docker Hub token for Octostar installation.</p>
+                <a href="mailto:support@octostar.com?subject=Docker%20Hub%20Token%20Request&body=Hi%2C%20I%20would%20like%20to%20request%20a%20Docker%20Hub%20token%20for%20Octostar%20installation.%0D%0A%0D%0AThank%20you!" 
+                   class="email-btn">
+                    <i>✉️</i>
+                    Request Token via Email
+                </a>
+            </div>
         </div>
 
         <div class="form-group">
@@ -109,6 +125,15 @@
 </main>
 
 <script src="index.js"></script>
+
+<script>
+    // Add this function to your existing JavaScript
+    function toggleTokenRequest(event) {
+        event.preventDefault();
+        const box = document.getElementById('tokenRequestBox');
+        box.classList.toggle('visible');
+    }
+</script>
 
 </body>
 </html>

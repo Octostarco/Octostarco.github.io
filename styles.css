@@ -292,3 +292,68 @@ code {
     margin-left: 24px;
     font-style: italic;
 }
+
+/* Token Help Styles */
+.token-help {
+    margin-top: 4px;
+    font-size: 0.9em;
+    color: #2980b9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.token-help a {
+    color: #2980b9;
+    text-decoration: none;
+    border-bottom: 1px dashed;
+}
+
+.token-help a:hover {
+    color: #3498db;
+    border-bottom-style: solid;
+}
+
+.token-help i {
+    font-size: 1.1em;
+}
+
+.form-group.token-group {
+    position: relative;
+}
+
+/* Token Request Box Styles */
+.token-request-box {
+    background: #e8f4f8;
+    border: 1px solid #bde0ec;
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 8px;
+    display: none;
+}
+
+.token-request-box.visible {
+    display: block;
+}
+
+.token-request-box p {
+    margin: 0 0 10px 0;
+}
+
+.token-request-box .email-btn {
+    background: #2980b9;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s ease;
+}
+
+.token-request-box .email-btn:hover {
+    background: #3498db;
+}
