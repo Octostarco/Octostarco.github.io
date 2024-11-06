@@ -2,6 +2,20 @@
 
 set -e
 
+# Check if running on Linux (Debian) or macOS
+if [[ "$(uname)" == "Linux" ]]; then
+    if ! command -v apt-get &> /dev/null || ! grep -qi debian /etc/os-release; then
+        echo "ERROR: This script requires Debian Linux"
+        exit 1
+    fi
+
+elif [[ "$(uname)" == "Darwin" ]]; then
+    :
+else
+    echo "ERROR: This script requires Linux (Debian) or macOS"
+    exit 1
+fi
+
 GIT_DEST="/opt/octostar"
 ZIP_URL="https://octostarco.github.io/octostar-singlenode.zip"
 DOCKERHUB_USERNAME="octostar"
@@ -39,8 +53,16 @@ fi
 # Check if unzip is installed, if not, install it
 if ! command -v unzip >/dev/null; then
     echo "unzip is not installed. Installing unzip..."
-    sudo apt update
-    sudo apt install -y unzip
+    if [[ "$(uname)" == "Linux" ]]; then
+        sudo apt update
+        sudo apt install -y unzip
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        if ! command -v brew >/dev/null; then
+            echo "Homebrew is not installed. Please install Homebrew to proceed."
+            exit 1
+        fi
+        brew install unzip
+    fi
 else
     echo "unzip is already installed."
 fi
@@ -63,17 +85,24 @@ fi
 if [ ! -f "$GIT_DEST/local-env.yaml" ]; then
     echo "Setting up Octostar-singlenode..."
     cp "$GIT_DEST/local-env.template.yaml" "$GIT_DEST/local-env.yaml"
-    sed -i "s/token: \"\"/token: \"$DOCKERHUB_TOKEN\"/" "$GIT_DEST/local-env.yaml"
+
+    if [[ "$(uname)" == "Darwin" ]]; then
+        SED_INPLACE="sed -i ''"
+    else
+        SED_INPLACE="sed -i"
+    fi
+
+    $SED_INPLACE "s/token: \"\"/token: \"$DOCKERHUB_TOKEN\"/" "$GIT_DEST/local-env.yaml"
 
     if [[ "$CUSTOM_DOMAIN" != "local.test" ]]; then
-        sed -i "/^# octostar:/,/^# *domain:/{ s/^# //; }" "$GIT_DEST/local-env.yaml"
-        sed -i "s/domain: \"local\.test\"/domain: \"$CUSTOM_DOMAIN\"/" "$GIT_DEST/local-env.yaml"
+        $SED_INPLACE "/^# octostar:/,/^# *domain:/{ s/^# //; }" "$GIT_DEST/local-env.yaml"
+        $SED_INPLACE "s/domain: \"local\.test\"/domain: \"$CUSTOM_DOMAIN\"/" "$GIT_DEST/local-env.yaml"
     fi
 
     if [ -n "$SYNTHETIC_BIG_DATA" ]; then
         if [ "${SYNTHETIC_BIG_DATA,,}" = "large" ] || [ "${SYNTHETIC_BIG_DATA,,}" = "small" ]; then
-            sed -i "/^# bigData:/{ s/^# //; }" "$GIT_DEST/local-env.yaml"
-            sed -i "s/bigData: \"none\"/bigData: \"${SYNTHETIC_BIG_DATA,,}\"/" "$GIT_DEST/local-env.yaml"
+            $SED_INPLACE "/^# bigData:/{ s/^# //; }" "$GIT_DEST/local-env.yaml"
+            $SED_INPLACE "s/bigData: \"none\"/bigData: \"${SYNTHETIC_BIG_DATA,,}\"/" "$GIT_DEST/local-env.yaml"
         else
             echo "SYNTHETIC_BIG_DATA is set to '$SYNTHETIC_BIG_DATA' but is neither 'large' nor 'small'"
         fi
@@ -88,8 +117,16 @@ yes yes | ./bin/install.sh --reinstall
 echo "Script execution completed!"
 echo "You can now access the Octostar via home.$CUSTOM_DOMAIN in your browser."
 
+get_ip_address() {
+    if [[ "$(uname)" == "Linux" ]]; then
+        ip addr show eth0 | grep 'inet ' | awk '{print $2}' | cut -d/ -f1
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null
+    fi
+}
+
 if [[ "$CUSTOM_DOMAIN" == "local.test" ]]; then
-    ip_address=$(ip addr show eth0 | grep 'inet ' | awk '{print $2}' | cut -d/ -f1)
+    ip_address=$(get_ip_address)
     echo
     echo
     echo "To access the Octostar from your local machine, add the following line to your /etc/hosts file:"
