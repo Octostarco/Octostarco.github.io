@@ -88,15 +88,11 @@
             <label for="synthetic-data">Include 1.5B records of synthetic data</label>
         </div>
 
-        <div class="checkbox-group wip">
-            <input type="checkbox" id="gpu-passthrough" disabled>
+        <div class="checkbox-group">
+            <input type="checkbox" id="gpu-passthrough" onchange="updateCommand()">
             <label for="gpu-passthrough">
                 Enable NVIDIA GPU pass-through
-                <span class="wip-badge">Coming Soon</span>
             </label>
-            <div class="wip-tooltip">
-                NVIDIA GPU support is currently in development.
-            </div>
         </div>
 
         <div class="installation-actions">
