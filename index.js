@@ -1,7 +1,7 @@
 function updateCommand() {
     const dockerhub_token = document.getElementById('dockerhub-token').value.trim() || 'dockerhub_token';
     const espysys_token = document.getElementById('espysys-token').value.trim() || 'espysys_token';
-    const mito_token = document.getElementById('mito-token').value.trim() || 'mito-token';
+    const mito_token = document.getElementById('mito-token').value.trim() || 'mito_token';
     const openai_token = document.getElementById('openai-token').value.trim() || 'openai_token';
     const sociallinks_token = document.getElementById('sociallinks-token').value.trim() || 'sociallinks_token';
     const domain = document.getElementById('domain-name').value.trim();
