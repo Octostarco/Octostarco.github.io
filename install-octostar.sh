@@ -111,6 +111,23 @@ if [ ! -f "$GIT_DEST/local-env.yaml" ]; then
             echo "SYNTHETIC_BIG_DATA is set to '$SYNTHETIC_BIG_DATA' but is neither 'large' nor 'small'"
         fi
     fi
+
+    if [[ "$ESPYSYS_TOKEN" != "espysys_token" ]]; then
+        $SED_INPLACE "s/^#*\s*espysysAPIKey:.*/espysysAPIKey: \"$ESPYSYS_TOKEN\"/" "$GIT_DEST/local-env.yaml"
+    fi
+
+    if [[ "$MITO_TOKEN" != "mito_token" ]]; then
+        $SED_INPLACE "s/^#*\s*mitoAPIKey:.*/mitoAPIKey: \"$MITO_TOKEN\"/" "$GIT_DEST/local-env.yaml"
+    fi
+
+    if [[ "$OPENAI_TOKEN" != "openai_token" ]]; then
+        $SED_INPLACE "s/^#*\s*openaiToken:.*/openaiToken: \"$OPENAI_TOKEN\"/" "$GIT_DEST/local-env.yaml"
+    fi
+
+    if [[ "$SOCIALLINKS_TOKEN" != "sociallinks_token" ]]; then
+        $SED_INPLACE "s/^#*\s*socialLinksAPIKey:.*/socialLinksAPIKey: \"$SOCIALLINKS_TOKEN\"/" "$GIT_DEST/local-env.yaml"
+    fi
+
 else
     echo "$GIT_DEST/local-env.yaml already exists."
 fi

@@ -1,5 +1,9 @@
 function updateCommand() {
-    const token = document.getElementById('dockerhub-token').value.trim() || 'dockerhub_token';
+    const dockerhub_token = document.getElementById('dockerhub-token').value.trim() || 'dockerhub_token';
+    const espysys_token = document.getElementById('espysys-token').value.trim() || 'espysys_token';
+    const mito_token = document.getElementById('mito-token').value.trim() || 'mito-token';
+    const openai_token = document.getElementById('openai-token').value.trim() || 'openai_token';
+    const sociallinks_token = document.getElementById('sociallinks-token').value.trim() || 'sociallinks_token';
     const domain = document.getElementById('domain-name').value.trim();
     const syntheticData = document.getElementById('synthetic-data').checked;
     const gpuPassthrough = document.getElementById('gpu-passthrough').checked;
@@ -7,7 +11,11 @@ function updateCommand() {
     // Build command parts array
     const commandParts = [
         'curl https://octostarco.github.io/install-octostar.sh | env',
-        `DOCKERHUB_TOKEN=${token}`
+        `DOCKERHUB_TOKEN=${dockerhub_token}`,
+        `ESPYSYS_TOKEN=${espysys_token}`,
+        `MITO_TOKEN=${mito_token}`,
+        `OPENAI_TOKEN=${openai_token}`,
+        `SOCIALLINKS_TOKEN=${sociallinks_token}`
     ];
     
     if (domain) {
