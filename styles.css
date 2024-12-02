@@ -136,38 +136,89 @@ code {
 }
 
 /* Form Styles */
-.form-container {
-    margin-bottom: 20px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
+.form-group {
+    margin-bottom: 2rem;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.form-group label::after {
+    content: none;
 }
 
 .form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #1a2634;
+    font-size: 1.1em;
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
 }
 
-.form-group input[type="text"],
-.form-group input[type="password"] {
+.form-group label:not(:first-child) {
+    margin-top: 1.5rem;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
     width: 100%;
     padding: 8px;
+    padding-right: 55px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1em;
+    transition: border-color 0.2s ease;
 }
 
-.form-group input:invalid {
+.input-wrapper input:focus {
+    outline: none;
+    border-color: #2980b9;
+}
+
+.input-wrapper input:invalid {
     border-color: #ff4444;
 }
 
+/* Password toggle button */
+.toggle-password {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    color: #666;
+    text-transform: lowercase;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+    color: #2980b9;
+}
+
+.toggle-password.visible::before {
+    content: "hide";
+}
+
+.toggle-password:not(.visible)::before {
+    content: "show";
+}
+
+/* Checkbox groups */
 .checkbox-group {
-    margin-bottom: 10px;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin: 0;
 }
 
 /* Optional Feature Styles */
@@ -216,6 +267,19 @@ code {
 .copy-command-btn:active {
     background-color: #3d8b40;
     transform: translateY(0);
+}
+
+.copy-command-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.copy-command-btn:disabled:hover {
+    background-color: #ccc;
+    box-shadow: none;
+    transform: none;
 }
 
 /* Code Preview */
@@ -326,4 +390,34 @@ code {
 
 .token-request-box .email-btn:hover {
     background: #3498db;
+}
+
+
+fieldset.optional-fields {
+    border: 1px solid #e0e4e8;
+    padding: 1.5rem;
+    margin: 2rem 0 0 0;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+    padding-top: 0;
+}
+
+fieldset.optional-fields legend {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #2980b9;
+
+}
+
+fieldset.optional-fields .input-wrapper:not(:first-child) {
+    margin-top: 1rem;
+}
+
+/* Required field indicator */
+.required::after {
+    content: " *";
+    color: #dc3545;
+    font-weight: bold;
 }

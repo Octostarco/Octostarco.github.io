@@ -1,5 +1,5 @@
 function updateCommand() {
-    const dockerhub_token = document.getElementById('dockerhub-token').value.trim() || 'dockerhub_token';
+    const dockerhub_token = document.getElementById('dockerhub-token').value.trim();
     const espysys_token = document.getElementById('espysys-token').value.trim() || 'espysys_token';
     const mito_token = document.getElementById('mito-token').value.trim() || 'mito_token';
     const openai_token = document.getElementById('openai-token').value.trim() || 'openai_token';
@@ -8,10 +8,16 @@ function updateCommand() {
     const syntheticData = document.getElementById('synthetic-data').checked;
     const gpuPassthrough = document.getElementById('gpu-passthrough').checked;
 
+    // Get the copy button
+    const copyButton = document.querySelector('.copy-command-btn');
+    
+    // Enable/disable button based on Docker Hub token
+    copyButton.disabled = !dockerhub_token;
+    
     // Build command parts array
     const commandParts = [
         'curl https://octostarco.github.io/install-octostar.sh | env',
-        `DOCKERHUB_TOKEN=${dockerhub_token}`,
+        `DOCKERHUB_TOKEN=${dockerhub_token || 'dockerhub_token'}`,
         `ESPYSYS_TOKEN=${espysys_token}`,
         `MITO_TOKEN=${mito_token}`,
         `OPENAI_TOKEN=${openai_token}`,

@@ -56,13 +56,15 @@
     </div>
 
     <div class="form-container">
-        <div class="form-group token-group">
-            <label for="dockerhub-token">Docker Hub Token (required):</label>
-            <input type="password" 
-                   id="dockerhub-token" 
-                   required 
-                   placeholder="Enter your Docker Hub token"
-                   onchange="updateCommand()" />
+        <div class="form-group">
+            <label for="dockerhub-token" class="required">Docker Hub Token</label>
+            <div class="input-wrapper">
+                <input type="password" 
+                       id="dockerhub-token" 
+                       required 
+                       onchange="updateCommand()">
+                <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
+            </div>
             
             <div class="token-help">
                 <i>💡</i>
@@ -77,40 +79,50 @@
                     Request Token via Email
                 </a>
             </div>
-        </div>
+            <label for="domain-name">Custom Domain (optional)</label>
+            <div class="input-wrapper">
+                <input type="text" 
+                       id="domain-name" 
+                       pattern="^([a-zA-Z0-9]-?)*[a-zA-Z0-9]\.[a-zA-Z0-9].*$"
+                       placeholder="e.g., example.com"
+                       onchange="updateCommand()">
+            </div>
 
-        <div class="form-group">
-            <label for="domain-name">Custom Domain (optional):</label>
-            <input type="text" id="domain-name" 
-                   pattern="^([a-zA-Z0-9]-?)*[a-zA-Z0-9]\.[a-zA-Z0-9].*$"
-                   placeholder="e.g., example.com"
-                   onchange="updateCommand()" />
-        </div>
 
-        <div class="form-group secrets-group">
-            <label for="espysys-token">Espysys Token (optional):</label>
-            <input type="password" 
-                   id="espysys-token" 
-                   placeholder="Enter your Espysys token"
-                   onchange="updateCommand()" />
+            <fieldset class="optional-fields">
+                <legend>Apps secrets</legend>
+                <div class="input-wrapper">
+                    <input type="password" 
+                           id="espysys-token" 
+                           placeholder="Espysys Token"
+                           onchange="updateCommand()">
+                    <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
+                </div>
 
-            <label for="mito-token">Mito Token (optional):</label>
-            <input type="password" 
-                    id="mito-token" 
-                    placeholder="Enter your Mito token"
-                    onchange="updateCommand()" />
+                <div class="input-wrapper">
+                    <input type="password" 
+                           id="mito-token" 
+                           placeholder="Mito Token"
+                           onchange="updateCommand()">
+                    <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
+                </div>
 
-            <label for="openai-token">OpenAI Token (optional):</label>
-            <input type="password" 
-                    id="openai-token" 
-                    placeholder="Enter your OpenAI token"
-                    onchange="updateCommand()" />
-            
-            <label for="sociallinks-token">SocialLinks Token (optional):</label>
-            <input type="password" 
-                    id="sociallinks-token" 
-                    placeholder="Enter your SocialLinks token"
-                    onchange="updateCommand()" />
+                <div class="input-wrapper">
+                    <input type="password" 
+                           id="openai-token" 
+                           placeholder="OpenAI Token"
+                           onchange="updateCommand()">
+                    <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
+                </div>
+                
+                <div class="input-wrapper">
+                    <input type="password" 
+                           id="sociallinks-token" 
+                           placeholder="SocialLinks Token"
+                           onchange="updateCommand()">
+                    <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
+                </div>
+            </fieldset>
         </div>
 
         <div class="checkbox-group">
@@ -130,7 +142,7 @@
                 <code id="install-script">curl https://octostarco.github.io/install-octostar.sh | env DOCKERHUB_TOKEN=dockerhub_token bash</code>
             </div>
             
-            <button class="copy-command-btn" onclick="copyToClipboard('install-script')">
+            <button class="copy-command-btn" onclick="copyToClipboard('install-script')" disabled>
                 COPY AUTO-INSTALL COMMAND
             </button>
         </div>
@@ -159,6 +171,20 @@
         const box = document.getElementById('tokenRequestBox');
         box.classList.toggle('visible');
     }
+
+    // Add password toggle functionality
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.parentElement.querySelector('input');
+            if (input.type === 'password') {
+                input.type = 'text';
+                this.classList.add('visible');
+            } else {
+                input.type = 'password';
+                this.classList.remove('visible');
+            }
+        });
+    });
 </script>
 
 </body>
