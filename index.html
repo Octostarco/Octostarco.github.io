@@ -45,6 +45,10 @@
                 <li>Optional public DNS support</li>
                 <li class="optional-feature">
                     <span class="optional-badge">Optional</span>
+                    Optionals support for external services like OpenAI and others (API keys required)
+                </li>
+                <li class="optional-feature">
+                    <span class="optional-badge">Optional</span>
                     1.5B synthetic records for testing (~130GB)
                 </li>
             </ul>
@@ -58,7 +62,7 @@
                    id="dockerhub-token" 
                    required 
                    placeholder="Enter your Docker Hub token"
-                   onchange="updateCommand()">
+                   onchange="updateCommand()" />
             
             <div class="token-help">
                 <i>💡</i>
@@ -80,7 +84,33 @@
             <input type="text" id="domain-name" 
                    pattern="^([a-zA-Z0-9]-?)*[a-zA-Z0-9]\.[a-zA-Z0-9].*$"
                    placeholder="e.g., example.com"
-                   onchange="updateCommand()">
+                   onchange="updateCommand()" />
+        </div>
+
+        <div class="form-group secrets-group">
+            <label for="espysys-token">Espysys Token (optional):</label>
+            <input type="password" 
+                   id="espysys-token" 
+                   placeholder="Enter your Espysys token"
+                   onchange="updateCommand()" />
+
+            <label for="mito-token">Mito Token (optional):</label>
+            <input type="password" 
+                    id="mito-token" 
+                    placeholder="Enter your Mito token"
+                    onchange="updateCommand()" />
+
+            <label for="openai-token">OpenAI Token (optional):</label>
+            <input type="password" 
+                    id="openai-token" 
+                    placeholder="Enter your OpenAI token"
+                    onchange="updateCommand()" />
+            
+            <label for="sociallinks-token">SocialLinks Token (optional):</label>
+            <input type="password" 
+                    id="sociallinks-token" 
+                    placeholder="Enter your SocialLinks token"
+                    onchange="updateCommand()" />
         </div>
 
         <div class="checkbox-group">
