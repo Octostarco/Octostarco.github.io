@@ -112,7 +112,7 @@ if [ ! -f "$GIT_DEST/local-env.yaml" ]; then
         fi
     fi
 
-    if [[ "$ASSEMBLYAI_TOKEN" != "espysys_token" ]]; then
+    if [[ "$ASSEMBLYAI_TOKEN" != "assemblyai_token" ]]; then
         $SED_INPLACE "s/^#*\s*assemblyAIAPIKey:.*/assemblyAIAPIKey: \"$ASSEMBLYAI_TOKEN\"/" "$GIT_DEST/local-env.yaml"
     fi
 
