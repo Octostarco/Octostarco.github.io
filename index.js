@@ -1,5 +1,6 @@
 function updateCommand() {
     const dockerhub_token = document.getElementById('dockerhub-token').value.trim();
+    const assemblyai_token = document.getElementById('assemblyai-token').value.trim();
     const espysys_token = document.getElementById('espysys-token').value.trim();
     const mito_token = document.getElementById('mito-token').value.trim();
     const openai_token = document.getElementById('openai-token').value.trim();
@@ -21,6 +22,9 @@ function updateCommand() {
 
     if (dockerhub_token) {
         commandParts.push(`DOCKERHUB_TOKEN=${dockerhub_token}`);
+    }
+    if (assemblyai_token) {
+        commandParts.push(`ASSEMBLYAI_TOKEN=${assemblyai_token}`);
     }
     if (espysys_token) {
         commandParts.push(`ESPYSYS_TOKEN=${espysys_token}`);

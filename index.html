@@ -93,6 +93,14 @@
                 <legend>Apps secrets</legend>
                 <div class="input-wrapper">
                     <input type="password" 
+                           id="assemblyai-token" 
+                           placeholder="AssemblyAI Token"
+                           onchange="updateCommand()">
+                    <button type="button" class="toggle-password" aria-label="Toggle password visibility"></button>
+                </div>
+
+                <div class="input-wrapper">
+                    <input type="password" 
                            id="espysys-token" 
                            placeholder="Espysys Token"
                            onchange="updateCommand()">
