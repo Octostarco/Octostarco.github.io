@@ -47,9 +47,13 @@ GIT_DEST="/opt/octostar"
 # Use stable or nightly zip based on STABLE env var
 if [[ "$STABLE" == "true" ]]; then
     ZIP_URL="https://octostarco.github.io/octostar-singlenode-stable.zip"
+    echo "🚀 Installing STABLE version of Octostar"
 else
     ZIP_URL="https://octostarco.github.io/octostar-singlenode.zip"
+    echo "🚀 Installing NIGHTLY version of Octostar"
 fi
+echo "📦 Using package: ${ZIP_URL##*/}"
+echo
 DOCKERHUB_USERNAME="octostar"
 
 if [ -z "$DOCKERHUB_TOKEN" ]; then
