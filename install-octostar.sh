@@ -52,12 +52,19 @@ else
     ZIP_URL="https://octostarco.github.io/octostar-singlenode.zip"
     echo "🚀 Installing NIGHTLY version of Octostar"
 fi
+
 echo "📦 Using package: ${ZIP_URL##*/}"
 echo
+
 DOCKERHUB_USERNAME="octostar"
 
 if [ -z "$DOCKERHUB_TOKEN" ]; then
     echo "Error: The environment variable DOCKERHUB_TOKEN is not set. Exiting."
+    exit 1
+fi
+
+if ! [[ "$DOCKERHUB_TOKEN" =~ ^dckr_pat_[A-Za-z0-9]+$ ]]; then
+    echo "Error: The provided DOCKERHUB_TOKEN does not match the expected Docker Hub PAT format."
     exit 1
 fi
 
