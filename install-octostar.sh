@@ -170,7 +170,7 @@ cd "$GIT_DEST"
 yes yes | ./bin/install.sh --reinstall
 
 echo "Script execution completed!"
-echo "You can now access the Octostar via home.$CUSTOM_DOMAIN in your browser."
+echo "You can now access the Octostar via https://home.$CUSTOM_DOMAIN in your browser."
 
 get_ip_address() {
     if [[ "$(uname)" == "Linux" ]]; then
