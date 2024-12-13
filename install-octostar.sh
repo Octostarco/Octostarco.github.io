@@ -9,28 +9,38 @@ if [[ "$(uname)" == "Linux" ]]; then
         exit 1
     fi
 
+    # Install wget and unzip early as they're required for later steps
+    for pkg in wget unzip; do
+        if ! command -v $pkg >/dev/null; then
+            echo "$pkg is not installed. Installing $pkg..."
+            sudo apt update
+            sudo apt install -y $pkg
+        else
+            echo "$pkg is already installed."
+        fi
+    done
+
 elif [[ "$(uname)" == "Darwin" ]]; then
+    # Check for Homebrew first
+    if ! command -v brew >/dev/null; then
+        echo "Homebrew is not installed. Please install Homebrew to proceed."
+        exit 1
+    fi
+
+    # Install wget and unzip early as they're required for later steps
+    for pkg in wget unzip; do
+        if ! command -v $pkg >/dev/null; then
+            echo "$pkg is not installed. Installing $pkg..."
+            brew install $pkg
+        else
+            echo "$pkg is already installed."
+        fi
+    done
+
     :
 else
     echo "ERROR: This script requires Linux (Debian) or macOS"
     exit 1
-fi
-
-# Check if wget is installed, if not, install it
-if ! command -v wget >/dev/null; then
-    echo "wget is not installed. Installing wget..."
-    if [[ "$(uname)" == "Linux" ]]; then
-        sudo apt update
-        sudo apt install -y wget
-    elif [[ "$(uname)" == "Darwin" ]]; then
-        if ! command -v brew >/dev/null; then
-            echo "Homebrew is not installed. Please install Homebrew to proceed."
-            exit 1
-        fi
-        brew install wget
-    fi
-else
-    echo "wget is already installed."
 fi
 
 GIT_DEST="/opt/octostar"
@@ -70,23 +80,6 @@ if [ -z "$CUSTOM_DOMAIN" ]; then
     CUSTOM_DOMAIN="local.test"
 else
     validate_domain
-fi
-
-# Check if unzip is installed, if not, install it
-if ! command -v unzip >/dev/null; then
-    echo "unzip is not installed. Installing unzip..."
-    if [[ "$(uname)" == "Linux" ]]; then
-        sudo apt update
-        sudo apt install -y unzip
-    elif [[ "$(uname)" == "Darwin" ]]; then
-        if ! command -v brew >/dev/null; then
-            echo "Homebrew is not installed. Please install Homebrew to proceed."
-            exit 1
-        fi
-        brew install unzip
-    fi
-else
-    echo "unzip is already installed."
 fi
 
 # Download and extract the singlenode installation folder
