@@ -16,6 +16,23 @@ else
     exit 1
 fi
 
+# Check if wget is installed, if not, install it
+if ! command -v wget >/dev/null; then
+    echo "wget is not installed. Installing wget..."
+    if [[ "$(uname)" == "Linux" ]]; then
+        sudo apt update
+        sudo apt install -y wget
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        if ! command -v brew >/dev/null; then
+            echo "Homebrew is not installed. Please install Homebrew to proceed."
+            exit 1
+        fi
+        brew install wget
+    fi
+else
+    echo "wget is already installed."
+fi
+
 GIT_DEST="/opt/octostar"
 # Use stable or nightly zip based on STABLE env var
 if [[ "$STABLE" == "true" ]]; then
