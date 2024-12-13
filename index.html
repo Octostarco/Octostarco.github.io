@@ -22,16 +22,6 @@
         </p>
     </section>
 
-    <div class="version-selector">
-        <label class="version-label">Version:</label>
-        <div class="toggle-switch">
-            <input type="radio" id="stable" name="version" value="stable" checked onchange="updateCommand()">
-            <label for="stable">Stable</label>
-            <input type="radio" id="nightly" name="version" value="nightly" onchange="updateCommand()">
-            <label for="nightly">Nightly</label>
-        </div>
-    </div>
-
     <div class="requirements-grid">
         <div class="info-card">
             <h3>🖥️ System Requirements</h3>
@@ -163,6 +153,15 @@
             <label for="gpu-passthrough">
                 Enable NVIDIA GPU pass-through
             </label>
+        </div>
+
+        <div class="version-selector">
+            <div class="toggle-switch">
+                <input type="radio" id="stable" name="version" value="stable" checked onchange="updateCommand()">
+                <label for="stable">Stable</label>
+                <input type="radio" id="nightly" name="version" value="nightly" onchange="updateCommand()">
+                <label for="nightly">Nightly</label>
+            </div>
         </div>
 
         <div class="installation-actions">
