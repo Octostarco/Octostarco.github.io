@@ -117,6 +117,14 @@ if [ ! -f "$GIT_DEST/local-env.yaml" ]; then
         fi
     fi
 
+    if [[ -n "$ADMIN_PASSWORD" ]]; then
+        $SED_INPLACE "s/^#*\s*timbrAdminPassword:.*/timbrAdminPassword: \"$ADMIN_PASSWORD\"/" "$GIT_DEST/local-env.yaml"
+    fi
+
+    if [[ "$ASSEMBLYAI_TOKEN" != "assemblyai_token" ]]; then
+        $SED_INPLACE "s/^#*\s*assemblyAIAPIKey:.*/assemblyAIAPIKey: \"$ASSEMBLYAI_TOKEN\"/" "$GIT_DEST/local-env.yaml"
+    fi
+
     if [[ "$ESPYSYS_TOKEN" != "espysys_token" ]]; then
         $SED_INPLACE "s/^#*\s*espysysAPIKey:.*/espysysAPIKey: \"$ESPYSYS_TOKEN\"/" "$GIT_DEST/local-env.yaml"
     fi
