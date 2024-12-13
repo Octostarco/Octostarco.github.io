@@ -7,6 +7,7 @@ function updateCommand() {
     const domain = document.getElementById('domain-name').value.trim();
     const syntheticData = document.getElementById('synthetic-data').checked;
     const gpuPassthrough = document.getElementById('gpu-passthrough').checked;
+    const isStable = document.getElementById('stable').checked;
 
     // Get the copy button
     const copyButton = document.querySelector('.copy-command-btn');
@@ -18,6 +19,10 @@ function updateCommand() {
     const commandParts = [
         'curl https://octostarco.github.io/install-octostar.sh | env'
     ];
+
+    if (isStable) {
+        commandParts.push('STABLE=true');
+    }
 
     if (dockerhub_token) {
         commandParts.push(`DOCKERHUB_TOKEN=${dockerhub_token}`);

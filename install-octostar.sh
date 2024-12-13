@@ -17,7 +17,12 @@ else
 fi
 
 GIT_DEST="/opt/octostar"
-ZIP_URL="https://octostarco.github.io/octostar-singlenode.zip"
+# Use stable or nightly zip based on STABLE env var
+if [[ "$STABLE" == "true" ]]; then
+    ZIP_URL="https://octostarco.github.io/octostar-singlenode-stable.zip"
+else
+    ZIP_URL="https://octostarco.github.io/octostar-singlenode.zip"
+fi
 DOCKERHUB_USERNAME="octostar"
 
 if [ -z "$DOCKERHUB_TOKEN" ]; then

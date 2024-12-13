@@ -1,0 +1,83 @@
+graph TB
+    subgraph "Kubernetes Cluster"
+        api[Kubernetes API]
+        
+        subgraph "Static components"
+            ingress[Nginx Ingress]
+            web[Octostar Web App]
+            mysql[(MySQL DB)]
+            redis[(Redis)]
+            elastic[(Elasticsearch)]
+            clickhouse[(Clickhouse DB)]
+            minio[(MinIO S3)]
+            nifi[NiFi]
+            
+            subgraph "Fusion DB Stack"
+                fusion_db[Fusion DB Server]
+                fusion_auth[Fusion DB Frontend]
+            end
+        end
+        
+        subgraph "Dynamic components (Apps)"
+            apps[("Web Apps\n(Multiple instances)")]
+            gpu_apps[("GPU-enabled Apps\n(Multiple instances)")]
+        end
+    end
+    
+    ext_api[External Data Providers API]
+    
+    %% Ingress routing
+    ingress ---> web
+    ingress ---> fusion_auth
+    ingress ---> apps
+    ingress ---> gpu_apps
+    
+    %% Internal connections
+    web ---> mysql
+    web ---> redis
+    web ---> fusion_db
+    web ---> api
+    web ---> elastic
+    web ---> minio
+    
+    %% NiFi data flow
+    nifi ---> redis
+    nifi ---> elastic
+    
+    %% Fusion DB stack
+    fusion_db ---> clickhouse
+    fusion_auth <---> fusion_db
+    web <---> fusion_auth
+    
+    %% App management
+    web ---> apps
+    web ---> gpu_apps
+    api ---> apps
+    api ---> gpu_apps
+    
+    %% External API connections
+    apps ---> ext_api
+    gpu_apps ---> ext_api
+    
+    %% S3 connections
+    apps ---> minio
+    gpu_apps ---> minio
+    
+    %% Styling
+    classDef primary fill:#2196F3,stroke:#1976D2,color:white
+    classDef storage fill:#FFA726,stroke:#F57C00,color:white
+    classDef storage2 fill:#FF7043,stroke:#E64A19,color:white
+    classDef auth fill:#66BB6A,stroke:#43A047,color:white
+    classDef external fill:#78909C,stroke:#546E7A,color:white
+    classDef apps fill:#AB47BC,stroke:#8E24AA,color:white
+    classDef ingress fill:#FF5252,stroke:#D32F2F,color:white
+    classDef etl fill:#26A69A,stroke:#00897B,color:white
+    
+    class web,api primary
+    class mysql,redis,fusion_db,clickhouse,minio storage
+    class elastic storage2
+    class fusion_auth auth
+    class ext_api external
+    class apps,gpu_apps apps
+    class ingress ingress
+    class nifi etl
